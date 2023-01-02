@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>GetStudent</servlet-name>
+        <servlet-class>servlets.GetStudent</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetStudent</servlet-name>
+        <url-pattern>/GetStudent</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>PostStudent</servlet-name>
+        <servlet-class>servlets.PostStudent</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PostStudent</servlet-name>
+        <url-pattern>/PostStudent</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>PostLibrarian</servlet-name>
+        <servlet-class>servlets.PostLibrarian</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PostLibrarian</servlet-name>
+        <url-pattern>/PostLibrarian</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>duplicate</servlet-name>
+        <servlet-class>servlets.duplicate</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>duplicate</servlet-name>
+        <url-pattern>/duplicate</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>mailDuplicate</servlet-name>
+        <servlet-class>servlets.mailDuplicate</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>mailDuplicate</servlet-name>
+        <url-pattern>/mailDuplicate</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>pass_duplicate</servlet-name>
+        <servlet-class>servlets.pass_duplicate</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>pass_duplicate</servlet-name>
+        <url-pattern>/pass_duplicate</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+</web-app>

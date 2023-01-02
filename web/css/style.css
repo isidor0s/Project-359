@@ -1,0 +1,34 @@
+*{
+    font-family: 'Nunito', sans-serif;
+}
+h1,h3 {
+    color: #0d6efd  ;
+}
+
+header{
+    padding: 24px;
+}
+.center{
+    display: flex;
+    justify-content: center;
+}
+.box{
+    width: 80%;
+}
+.date{
+    text-align: center;
+}
+
+.eye{
+    position: relative;
+    left:-60px;
+    z-index: 15;
+    top: 2px;
+    cursor: pointer;
+}
+.eye:hover{
+    color: #0d6efd
+}
+.check{
+    color: green;
+}
