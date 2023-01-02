@@ -29,6 +29,18 @@ header{
 .eye:hover{
     color: #0d6efd
 }
+
+.show{
+    position: absolute;
+    top:158px;
+    right:50px;
+    z-index: 15;
+    color: #0d6efd;
+    cursor: pointer;
+}
+.show:hover{
+    color: black;
+}
 .check{
     color: green;
 }
