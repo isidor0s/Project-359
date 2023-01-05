@@ -21,13 +21,15 @@
         <!--  icons -->
         <script src="https://unpkg.com/phosphor-icons"></script>
         <script src="js/script.js"></script>
+        <script src="js/kikiscript.js"></script>
     </head>
     <body>
     <div class="container">
         <header class="d-flex justify-content-center mt-5">
             <h1>Login</h1>
         </header>
-        <form class="d-flex justify-content-center">
+<!--        <form class="d-flex justify-content-center">-->
+        <form class="d-flex justify-content-center" id="loginForm" name="loginForm" onsubmit="loginUser(); return false;">
             <div class="col-md-3 card p-4 border-primary">
                 <div class="text-primary">
                     <label for="username" class="form-label">Username</label>
@@ -51,19 +53,17 @@
                             type="password"
                             id="password"
                             name="password"
-                            maxlength="12"
-                            minlength="8"
                             class="form-control"
-                            pattern="(?=.*\d)(?=.*[A-Za-z])(?=.*\W).{8,12}"
                             required
                     />
                 </div>
                 <div class="show">
                     <i onclick="show_password()" id="eye" class="ph-eye-bold"></i>
                 </div>
-                <button id="submit" type="submit" class="btn btn-primary mb-3">
-                    Sign in
-                </button>
+<!--                <button id="submit" type="submit" class="btn btn-primary mb-3" >-->
+<!--                    Sign in-->
+<!--                </button>-->
+                <input type="submit"  value="Login" class="btn btn-primary mb-3">
                 <div class="d-flex justify-content-center">
                     Not registered?&nbsp;
                     <a class="link-primary text-decoration-none" onclick="switch_reg()"

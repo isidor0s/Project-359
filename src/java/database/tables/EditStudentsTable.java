@@ -70,21 +70,21 @@ public class EditStudentsTable {
         }
     }
     
-    public Student databaseToStudent(String username, String password) throws SQLException, ClassNotFoundException{
+    public Student databaseToStudent(String username) throws SQLException, ClassNotFoundException{
          Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
 
         ResultSet rs;
         try {
-            rs = stmt.executeQuery("SELECT * FROM students WHERE username = '" + username + "' AND password='"+password+"'");
-            System.out.println("SELECT * FROM students WHERE username = '" + username + "' AND password='"+password+"'");
+            rs = stmt.executeQuery("SELECT * FROM students WHERE username = '" + username + "'" );
+            System.out.println("SELECT * FROM students WHERE username = '" + username + "'" );
             rs.next();
             String json=DB_Connection.getResultsToJSON(rs);
             Gson gson = new Gson();
             Student user = gson.fromJson(json, Student.class);
             return user;
         } catch (Exception e) {
-            System.err.println("Got an exception! ");
+            System.err.println("Got an exception databaseToStudent! ");
             System.err.println(e.getMessage());
         }
         return null;

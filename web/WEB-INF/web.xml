@@ -49,6 +49,30 @@
         <servlet-name>pass_duplicate</servlet-name>
         <url-pattern>/pass_duplicate</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>Login</servlet-name>
+        <servlet-class>servlets.Login</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Login</servlet-name>
+        <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>servlets.Logout</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/Logout</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AvailableBooks</servlet-name>
+        <servlet-class>servlets.AvailableBooks</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AvailableBooks</servlet-name>
+        <url-pattern>/AvailableBooks</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

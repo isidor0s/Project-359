@@ -57,7 +57,8 @@ public class GetStudent extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             EditStudentsTable eut = new EditStudentsTable();
-        Student su = eut.databaseToStudent(username, password);
+//        Student su = eut.databaseToStudent(username, password);
+            Student su = eut.databaseToStudent(username);
         if(su==null){
              response.setStatus(403);
         }

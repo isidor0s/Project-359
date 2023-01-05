@@ -8,9 +8,7 @@ function createTableFromJSON(data) {
     }
     html += "</table>";
     return html;
-
 }
-
 
 function getUser() {
     var xhr = new XMLHttpRequest();
