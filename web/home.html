@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="js/kikiscript.js" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+</head>
+<body>
+<button id="logout" onclick="logout()" >Logout</button>
+<button id="option1" onclick="showPersonalData()">Show Personal Data</button>
+<button id="option2" onclick="showAvailableBooks()">Show Available Books</button>
+<div id="personalData" class="ishidden"></div>
+<div id='availableBooks' class='ishidden'>
+    <fieldset>
+        <legend>Available Books</legend>
+        <div id='list_ofAvailableBooks'></div>
+    </fieldset>
+</div>
+</body>
+</html>
