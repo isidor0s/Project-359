@@ -73,6 +73,14 @@
         <servlet-name>AvailableBooks</servlet-name>
         <url-pattern>/AvailableBooks</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>UpdateStudentInfo</servlet-name>
+        <servlet-class>servlets.UpdateStudentInfo</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateStudentInfo</servlet-name>
+        <url-pattern>/UpdateStudentInfo</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

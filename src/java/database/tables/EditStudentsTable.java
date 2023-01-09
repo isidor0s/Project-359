@@ -42,15 +42,24 @@ public class EditStudentsTable {
         String json = gson.toJson(user, Student.class);
         return json;
     }
-    
-   
-    
-    public void updateStudent(String username,String personalpage) throws SQLException, ClassNotFoundException{
+
+
+
+    public void updateStudent(String username,String field_name, String field_value) throws SQLException, ClassNotFoundException{
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
-        String update="UPDATE students SET personalpage='"+personalpage+"' WHERE username = '"+username+"'";
+        String update="UPDATE students SET " + field_name + " = '"+field_value+"' WHERE username = '"+username+"'";
+        System.out.println(update);
         stmt.executeUpdate(update);
     }
+
+//    public void updateStudent(String username,String update_str) throws SQLException, ClassNotFoundException{
+//        Connection con = DB_Connection.getConnection();
+//        Statement stmt = con.createStatement();
+//        String update="UPDATE students SET " + update_str + " WHERE username = '"+username+"'";
+//        System.out.println(update);
+//        stmt.executeUpdate(update);
+//    }
     
     public void printStudentDetails(String username, String password) throws SQLException, ClassNotFoundException{
          Connection con = DB_Connection.getConnection();

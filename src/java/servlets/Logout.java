@@ -14,12 +14,18 @@ public class Logout extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        if (session.getAttribute("loggedIn") != null) {
-            session.invalidate();
-            response.setStatus(200);
-        } else {
-            response.setStatus(403);
+        try {
+            HttpSession session = request.getSession();
+            if (session.getAttribute("loggedIn") != null) {
+                session.invalidate();
+                response.setStatus(200);
+                response.getWriter().write("Log Out Succeed");
+            } else {
+                response.setStatus(403);
+                response.getWriter().write("Can not Log Out");
+            }
+        } catch (Exception e){
+            response.getWriter().write(e.toString());
         }
     }
 }
