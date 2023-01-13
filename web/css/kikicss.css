@@ -1,0 +1,9 @@
+.ishidden {
+    display: none;
+    visibility: hidden;
+}
+
+.isvisible {
+    display: initial;
+    visibility: visible;
+}
