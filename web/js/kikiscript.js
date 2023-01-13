@@ -101,5 +101,5 @@ function logout(){
 }
 
 function GoTo_loginPage(){
-    window.location.replace("http://localhost:8080/login.html");
+    window.location.replace("http://localhost:8080");
 }
