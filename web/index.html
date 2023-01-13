@@ -1,41 +1,75 @@
-<!doctype html>
-<html lang="en" class="no-js">
-    <head> 
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script src="js/ajax.js" defer></script>
-        <script src="js/script.js"></script>
-        <script src="js/kikiscript.js"></script>
-        <link rel="stylesheet" href="css/cssExamples.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-
-    </head>
-    <body>
-        <h2>HY 359-Examples</h2>
-
-        <button onclick="gotoLogin()">Login Page</button>
-
-        <div class="row">
-            <div class="column column1Width" id="choices" style="background-color:#ADD8E6;">           
-            <form id="loginForm" name="loginForm" onsubmit='getUser();return false;'>
-                    <label for="username">username:</label><br>
-                    <input type="text"  id="username" name="username" required><br>
-                    <label for="password">password:</label><br>
-                    <input type="password"  name="password" id="password" required><br>
-                    <input type="submit" class="button" value="Login">
-                    <input type="submit" class="button" value="Register" onclick="switch_reg()">
-            </form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    <!-- stylesheet -->
+    <link rel="stylesheet" href="css/style.css" />
+    <!--  bootstrap  -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+            crossorigin="anonymous"
+    />
+    <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+            crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!--  icons -->
+    <script src="https://unpkg.com/phosphor-icons"></script>
+    <script src="js/script.js"></script>
+    <script src="js/kikiscript.js"></script>
+</head>
+<body>
+<div class="container">
+    <header class="d-flex justify-content-center mt-5">
+        <h1>Login</h1>
+    </header>
+    <!--        <form class="d-flex justify-content-center">-->
+    <form class="d-flex justify-content-center" id="loginForm" name="loginForm" onsubmit="loginUser(); return false;">
+        <div class="col-md-3 card p-4 border-primary">
+            <div class="text-primary">
+                <label for="username" class="form-label">Username</label>
             </div>
-            <div class="column column2Width" id="output" style="background-color:#fffff0;">
-                <h2>Output</h2>
-                <div id="ajaxContent"></div>
-                  
+            <div class="col mb-3">
+                <input
+                        type="text"
+                        class="form-control"
+                        id="username"
+                        name="username"
+                        required
+                />
             </div>
-			
+            <div class="text-primary">
+                <label for="password" class="col-form-label">Password</label>
+            </div>
+            <div class="col mb-4">
+                <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="form-control"
+                        required
+                />
+            </div>
+            <div class="show">
+                <i onclick="show_password()" id="eye" class="ph-eye-bold"></i>
+            </div>
+            <!--                <button id="submit" type="submit" class="btn btn-primary mb-3" >-->
+            <!--                    Sign in-->
+            <!--                </button>-->
+            <input type="submit"  value="Login" class="btn btn-primary mb-3">
+            <div class="d-flex justify-content-center">
+                Not registered?&nbsp;
+                <a class="link-primary text-decoration-none" onclick="switch_reg()"
+                >Create an account</a
+                >
+            </div>
         </div>
-        <br>
-          
-    </body>
-
+    </form>
+</div>
+</body>
 </html>
-
