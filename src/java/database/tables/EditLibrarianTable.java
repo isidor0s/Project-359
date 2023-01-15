@@ -50,6 +50,14 @@ public class EditLibrarianTable {
         stmt.executeUpdate(update);
     }
 
+    public void updateLibrarian(String username,String field_name, String field_value) throws SQLException, ClassNotFoundException{
+        Connection con = DB_Connection.getConnection();
+        Statement stmt = con.createStatement();
+        String update="UPDATE librarians SET " + field_name + " = '"+field_value+"' WHERE username = '"+username+"'";
+        System.out.println(update);
+        stmt.executeUpdate(update);
+    }
+
     public void printLibrarianDetails(String username, String password) throws SQLException, ClassNotFoundException {
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
