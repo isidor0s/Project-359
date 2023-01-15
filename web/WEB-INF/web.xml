@@ -74,12 +74,12 @@
         <url-pattern>/AvailableBooks</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>UpdateStudentInfo</servlet-name>
-        <servlet-class>servlets.UpdateStudentInfo</servlet-class>
+        <servlet-name>UpdateInfo</servlet-name>
+        <servlet-class>servlets.UpdateInfo</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>UpdateStudentInfo</servlet-name>
-        <url-pattern>/UpdateStudentInfo</url-pattern>
+        <servlet-name>UpdateInfo</servlet-name>
+        <url-pattern>/UpdateInfo</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

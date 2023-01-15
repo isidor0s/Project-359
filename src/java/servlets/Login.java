@@ -1,5 +1,7 @@
 package servlets;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import database.tables.EditLibrarianTable;
 import database.tables.EditStudentsTable;
 import java.io.IOException;
@@ -32,7 +34,9 @@ public class Login extends HttpServlet {
             if (tmp_student != null){
                 if (tmp_student.getPassword().equals(password)){
                     String json = est.studentToJSON(tmp_student);
-                    response.getWriter().write(json);
+                    String res = json.replace("}",",\"type\":\"student\"}");
+                    System.out.println(res);
+                    response.getWriter().write(res);
                     response.setStatus(200);
                 }else {
                     response.getWriter().write("404 error/ Wrong Password");
@@ -41,7 +45,9 @@ public class Login extends HttpServlet {
             } else if( tmp_librarian != null) {
                 if (tmp_librarian.getPassword().equals(password)){
                     String json = elt.librarianToJSON(tmp_librarian);
-                    response.getWriter().write(json);
+                    String res = json.replace("}",",\"type\":\"librarian\"}");
+                    System.out.println(res);
+                    response.getWriter().write(res);
                     response.setStatus(200);
                 }else {
                     response.getWriter().write("404 error/ Wrong Password");
