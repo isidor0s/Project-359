@@ -43,8 +43,6 @@ public class EditStudentsTable {
         return json;
     }
 
-
-
     public void updateStudent(String username,String field_name, String field_value) throws SQLException, ClassNotFoundException{
         Connection con = DB_Connection.getConnection();
         Statement stmt = con.createStatement();
