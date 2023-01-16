@@ -31,6 +31,7 @@ function showPersonalData(){
     document.getElementById("availableBooks").className = "ishidden";
     document.getElementById("option2").className = "isvisible";
     document.getElementById("option1").className = "ishidden";
+    document.getElementById("option3").className = "isvisible";
     createFormFromJSON("http://localhost:50350/Library_REST_API/library/student/students/");
 }
 // show availablebooks ajax
@@ -39,6 +40,7 @@ function showAvailableBooks(){
     document.getElementById("personalData").className = "ishidden";
     document.getElementById("option1").className = "isvisible";
     document.getElementById("option2").className = "ishidden";
+    document.getElementById("option3").className = "isvisible";
 
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'AvailableBooks?');
@@ -160,8 +162,11 @@ function createFormFromJSON(request) {
                     }
                     case "libraryinfo": {
                         html += "<div class='mb-3 col-sm-6' id='libraryinfo'><label for='info' class='form-label'>Opening Hours & Informations</label>"+
-                                "<textarea class='form-control' id='libraryinfo' rows='1' minlength='3' maxlength='50' name='libraryinfo' value='" + input + "'></textarea></div>";
+                                "<textarea class='form-control' id='libraryinfo' rows='1' minlength='3' maxlength='50' name='libraryinfo' placeholder='" + input + "'></textarea></div>";
                         break;
+                    }
+                    case "library_id": {
+                        localStorage.setItem("library_id",input);
                     }
                     default: {
                         if (label == "email" && localStorage.getItem("type") == "librarian") {
@@ -247,16 +252,248 @@ function GoTo_loginPage(){
 function showLibPersonalData(){
     document.getElementById("personalData").className = "isvisible";
     document.getElementById("option1").className = "ishidden";
+    document.getElementById("newBook").className = "ishidden";
     document.getElementById("option2").className = "isvisible";
+    document.getElementById("search-isbn").className = "ishidden";
+    document.getElementById("option4").className = "isvisible";
+    document.getElementById("requests").className = "ishidden";
     createFormFromJSON("http://localhost:50350/Library_REST_API/library/librarian/librarians/");
 }
 
 function newBook(){
     document.getElementById("personalData").className = "ishidden";
     document.getElementById("option1").className = "isvisible";
+    document.getElementById("newBook").className = "isvisible";
     document.getElementById("option2").className = "ishidden";
+    document.getElementById("search-isbn").className = "ishidden";
+    document.getElementById("option4").className = "isvisible";
+    document.getElementById("requests").className = "ishidden";
+}
+function available(){
+    document.getElementById("newBook").className = "ishidden";
+    document.getElementById("personalData").className = "ishidden";
+    document.getElementById("option3").className = "ishidden";
+    document.getElementById("option1").className = "isvisible";
+    document.getElementById("newBook").className = "ishidden";
+    document.getElementById("option2").className = "isvisible";
+    document.getElementById("search-isbn").className = "isvisible";
+    document.getElementById("option4").className = "isvisible";
+    document.getElementById("requests").className = "ishidden";
 }
 
-function addBook(request){
+function addBook(){
+    let form = document.getElementById("bookForm")
+    let formData = new FormData(form);
+    let data = {};
+    formData.forEach((value, key) => (data[key] = value));
+    var jsonData=JSON.stringify(data);
     var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200){
+            console.log("ok2000")
+        }
+    };
+    xhr.open("POST", "http://localhost:50350/Library_REST_API/library/book/newbook");
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.send(jsonData);
+}
+
+
+
+let flag = "true";
+var jsonaddbook
+function availableBook(){
+    // let form = document.getElementById("search-form")
+    document.getElementById("msg-search").innerHTML = ""
+    let isbn = document.getElementById("search").value;
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        const data = JSON.parse(xhr.responseText);
+        if (xhr.readyState === 4 && xhr.status === 200){
+
+            flag = data[0]["available"];
+
+            if(flag === "false"){
+                document.getElementById("msg-search").style = "color:green";
+                document.getElementById("add").removeAttribute("disabled");
+                document.getElementById("msg-search").innerHTML = "The book doesn't exist in Library. You can added if you want";
+                jsonaddbook = "{\"isbn\":\""+isbn+"\",\"library_id\":\""+localStorage.getItem("library_id")+"\",\"available\":true}";
+            }else{
+                document.getElementById("msg-search").style = "color:orange";
+                document.getElementById("add").setAttribute("disabled","");
+                document.getElementById("msg-search").innerHTML = "The book exists in library";
+            }
+
+        }
+        else{
+            document.getElementById("add").setAttribute("disabled","");
+            document.getElementById("msg-search").innerHTML = "Book not found in Database.";
+            document.getElementById("msg-search").style = "color:red";
+            console.log(data);
+        }
+    };
+    xhr.open("GET", "http://localhost:50350/Library_REST_API/library/availability/"+isbn+"/"+localStorage.getItem("library_id"));
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.send();
+
+}
+
+function Post_Book_in_Library(){
+
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200){
+            // const data = JSON.parse(xhr.responseText);
+            console.log("it works");
+        }
+    };
+    xhr.open("POST", "http://localhost:50350/Library_REST_API/library/availability/addBookinLibrary");
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.send(jsonaddbook);
+
+}
+function showRequests(){
+    document.getElementById("personalData").className = "ishidden";
+    document.getElementById("option1").className = "isvisible";
+    document.getElementById("option2").className = "isvisible";
+    document.getElementById("option3").className = "isvisible";
+    document.getElementById("option4").className = "ishidden";
+    document.getElementById("newBook").className = "ishidden";
+    document.getElementById("search-isbn").className = "ishidden";
+    document.getElementById("requests").className = "isvisible";
+    document.getElementById("requests").innerHTML = "";
+    document.getElementById("requests").className = "styled-table";
+
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const obj = JSON.parse(xhr.responseText);
+            var table = document.getElementById("requests");
+            let thead = table.createTHead();
+
+            let row = thead.insertRow(0);
+            row.insertCell(0).innerHTML = "borrowing_id";
+            row.insertCell(1).innerHTML="bookcopy_id";
+            row.insertCell(2).innerHTML="user_id";
+            row.insertCell(3).innerHTML="isbn";
+
+            row.insertCell(4).innerHTML="status";
+
+            let tbody = table.createTBody();
+            var i = 0;
+            for(let x in obj){
+                let row = tbody.insertRow(i);
+                row.id = obj[x].username;
+                row.insertCell(0).innerHTML=obj[x]["borrowing_id"];
+                row.insertCell(1).innerHTML=obj[x]["bookcopy_id"];
+                row.insertCell(2).innerHTML=obj[x]["user_id"];
+                row.insertCell(3).innerHTML=obj[x]["isbn"];
+                if(obj[x]["status"]==="requested" || obj[x]["status"]==="returned"){
+                    row.insertCell(4).innerHTML= "<button id='"+i+"'  class='btn btn-warning' value='" + obj[x]["status"] + "' onclick=actionLib(this.id,this.value)>" + obj[x]["status"] + "</button>";
+                }else {
+                    row.insertCell(4).innerHTML= "<button id='"+i+"'  class='btn btn-warning' value='" + obj[x]["status"] + "' onclick=actionLib(this.id,this.value)>" + obj[x]["status"] + " disabled</button>";
+                }
+                i++;
+            }
+
+        } else if (xhr.status !== 200) {
+            console.log("error i dont't know");
+        }
+    };
+    xhr.open("GET", "http://localhost:50350/Library_REST_API/library/borrowing/"+localStorage.getItem("library_id"));
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send();
+}
+function actionLib(req,status){
+
+    let row = document.getElementById(req);
+
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const obj = JSON.parse(xhr.responseText);
+            row.classList.remove("btn-warning");
+            row.classList.add("btn-success");
+            row.setAttribute("disabled","");
+            if(status==="requested"){
+                row.innerHTML = "borrowed";
+            }else{
+                row.innerHTML = "successEnd";
+            }
+
+            console.log("success");
+        } else if (xhr.status !== 200) {
+
+        }
+    };
+    if(status==="requested"){
+        xhr.open("PUT", "http://localhost:50350/Library_REST_API/library/borrowing/updateStatus/"+localStorage.getItem("library_id")+"/borrowed");
+    }else{
+        xhr.open("PUT", "http://localhost:50350/Library_REST_API/library/borrowing/updateStatus/"+localStorage.getItem("library_id")+"/successEnd");
+    }
+
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send();
+}
+
+function loans_info(){
+    document.getElementById("personalData").className = "ishidden";
+    document.getElementById("option1").className = "isvisible";
+    document.getElementById("option2").className = "isvisible";
+    document.getElementById("option3").className = "isvisible";
+    document.getElementById("option4").className = "ishidden";
+    document.getElementById("newBook").className = "ishidden";
+    document.getElementById("search-isbn").className = "ishidden";
+    document.getElementById("requests").innerHTML = "";
+    document.getElementById("requests").className = "styled-table";
+
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const obj = JSON.parse(xhr.responseText);
+            var table = document.getElementById("requests");
+            let thead = table.createTHead();
+
+            let row = thead.insertRow(0);
+            row.insertCell(0).innerHTML = "borrowing_id";
+            row.insertCell(1).innerHTML="bookcopy_id";
+            row.insertCell(2).innerHTML="user_id";
+            row.insertCell(3).innerHTML="isbn";
+            row.insertCell(4).innerHTML="firstname";
+            row.insertCell(5).innerHTML="lastname";
+            row.insertCell(6).innerHTML="student_id";
+            row.insertCell(7).innerHTML="status";
+
+            let tbody = table.createTBody();
+            var i = 0;
+            for(let x in obj){
+                let row = tbody.insertRow(i);
+                row.id = obj[x].username;
+                row.insertCell(0).innerHTML=obj[x]["borrowing_id"];
+                row.insertCell(1).innerHTML=obj[x]["bookcopy_id"];
+                row.insertCell(2).innerHTML=obj[x]["user_id"];
+                row.insertCell(3).innerHTML=obj[x]["isbn"];
+                row.insertCell(4).innerHTML=obj[x]["firstname"];
+                row.insertCell(5).innerHTML=obj[x]["lastname"];
+                row.insertCell(6).innerHTML=obj[x]["student_id"];
+
+                if(obj[x]["status"]==="borrowed"){
+                    row.insertCell(7).innerHTML= "<button id='"+i+"'  class='btn btn-warning' value='" + obj[x]["status"] + "' disabled >" + obj[x]["status"] + "";
+                }else {
+                    row.insertCell(7).innerHTML= "<button id='"+i+"'  class='btn btn-success' value='" + obj[x]["status"] + "' disabled >" + obj[x]["status"] + " </button>";
+                }
+                i++;
+            }
+
+        } else if (xhr.status !== 200) {
+
+            console.log("error i dont't know");
+        }
+    };
+    xhr.open("GET", "http://localhost:50350/Library_REST_API/library/borrowing/info/"+localStorage.getItem("library_id"));
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send();
 }
