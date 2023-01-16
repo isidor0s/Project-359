@@ -1,5 +1,6 @@
 let lat = null;
 let lon = null;
+// login student and librarian
 function loginUser(){
     let data = $('#loginForm').serialize();
     var xhr = new XMLHttpRequest();
@@ -24,6 +25,7 @@ function loginUser(){
     xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
     xhr.send();
 }
+// show personalData for student
 function showPersonalData(){
     document.getElementById("personalData").className = "isvisible";
     document.getElementById("availableBooks").className = "ishidden";
@@ -31,6 +33,7 @@ function showPersonalData(){
     document.getElementById("option1").className = "ishidden";
     createFormFromJSON("http://localhost:50350/Library_REST_API/library/student/students/");
 }
+// show availablebooks ajax
 function showAvailableBooks(){
     document.getElementById("availableBooks").className = "isvisible";
     document.getElementById("personalData").className = "ishidden";
@@ -57,6 +60,7 @@ function showAvailableBooks(){
     xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
     xhr.send();
 }
+// ajax createForm
 function createFormFromJSON(request) {
     let html = "<br><br><form id='updateInfo_form' name='updateInfo_form' onsubmit='CheckLocation(); return false;'>";
     const xhr = new XMLHttpRequest();
@@ -150,12 +154,12 @@ function createFormFromJSON(request) {
                         break;
                     }
                     case "libraryname": {
-                        html += "<div class='col-sm-3 mb-3'><label for='libraryname' class='form-label' style='display: none'>Library Name</label>"+
-                                "<input id='libraryname' type='text' class='form-control' aria-label='Pass Number' style='display: none' name='libraryname' value='" + input + "'/></div>";
+                        html += "<div class='col-sm-3 mb-3'><label for='libraryname' class='form-label'>Library Name</label>"+
+                                "<input id='libraryname' type='text' class='form-control' aria-label='Pass Number'  name='libraryname' value='" + input + "'/></div>";
                         break;
                     }
                     case "libraryinfo": {
-                        html += "<div class='mb-3 col-sm-6' id='libraryinfo' style='display: none'><label for='info' class='form-label'>Opening Hours & Informations</label>"+
+                        html += "<div class='mb-3 col-sm-6' id='libraryinfo'><label for='info' class='form-label'>Opening Hours & Informations</label>"+
                                 "<textarea class='form-control' id='libraryinfo' rows='1' minlength='3' maxlength='50' name='libraryinfo' value='" + input + "'></textarea></div>";
                         break;
                     }
@@ -243,5 +247,16 @@ function GoTo_loginPage(){
 function showLibPersonalData(){
     document.getElementById("personalData").className = "isvisible";
     document.getElementById("option1").className = "ishidden";
+    document.getElementById("option2").className = "isvisible";
     createFormFromJSON("http://localhost:50350/Library_REST_API/library/librarian/librarians/");
+}
+
+function newBook(){
+    document.getElementById("personalData").className = "ishidden";
+    document.getElementById("option1").className = "isvisible";
+    document.getElementById("option2").className = "ishidden";
+}
+
+function addBook(request){
+    var xhr = new XMLHttpRequest();
 }
