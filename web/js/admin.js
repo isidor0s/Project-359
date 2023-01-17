@@ -69,7 +69,6 @@ function showUsers(){
         showStudent("http://localhost:50350/Library_REST_API/library/student/students/all");
         showLibrarian("http://localhost:50350/Library_REST_API/library/librarian/librarians/all");
     }else {
-        console.log("ok")
         var x = document.getElementById("users");
         x.innerHTML = ""
         var x = document.getElementById("librarians");

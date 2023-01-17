@@ -5,6 +5,7 @@
   <title>Home Page</title>
   <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/kikicss.css">
+  <link rel="stylesheet" href="./css/table.css">
   <script src="js/kikiscript.js" defer></script>
   <script src="js/script.js" defer></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -26,16 +27,178 @@
   <button id="logout" onclick="logout()" >Logout</button>
   <button id="option1" onclick="showLibPersonalData()">Show Personal Data</button>
   <button id="option2" onclick="newBook()">Add New Book</button>
+  <button id="option3" onclick="available()">Book Availability</button>
+  <button id="option4" onclick="showRequests()">Requests</button>
+  <button id="option5" onclick="loans_info()">Βook loans</button>
 
   <!--<button id="option2" onclick="showAvailableBooks()">Show Available Books</button>-->
+  <!-- Personal Data -->
   <div id="personalData" class="ishidden"></div>
-  <div id="new Book" class="ishidden"></div>
-  <div>
-    <form>
+  <div class="mb-3"></div>
+  <!-- form to add book -->
+  <div id="newBook" class="ishidden">
+    <h1>Book Information</h1>
+    <form id="bookForm" onsubmit="addBook(); return false">
+      <div class="mb-3">
+        <div class="col-sm-3">
+          <label for="isbn" class="form-label">*ISBN</label>
+        </div>
+        <div class="col-sm-4">
+          <input
+                  type="text"
+                  class="form-control"
+                  id="isbn"
+                  name="isbn"
+                  minlength="8"
 
+                  required
+          />
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="col-sm-3">
+          <label for="title" class="form-label">*Title</label>
+        </div>
+        <div class="col-sm-4">
+          <input
+                  type="text"
+                  class="form-control"
+                  id="title"
+                  name="title"
+                  required
+          />
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="col-sm-3">
+          <label for="authors" class="form-label">*Author</label>
+        </div>
+        <div class="col-sm-4">
+          <input
+                  type="text"
+                  class="form-control"
+                  id="authors"
+                  name="authors"
+                  required
+          />
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="col-sm-3">
+          <label for="genre" class="form-label">*Genrer</label>
+        </div>
+        <div class="col-sm-4">
+          <input
+                  type="text"
+                  class="form-control"
+                  id="genre"
+                  name="genre"
+                  required
+          />
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="col-sm-3">
+          <label for="pages" class="form-label">*Pages</label>
+        </div>
+        <div class="col-sm-4">
+          <input
+                  type="text"
+                  class="form-control"
+                  id="pages"
+                  name="pages"
+                  required
+          />
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="col-sm-3">
+          <label for="publicationyear" class="form-label">*Publication Year</label>
+        </div>
+        <div class="col-sm-4">
+          <input
+                  type="text"
+                  class="form-control"
+                  id="publicationyear"
+                  name="publicationyear"
+                  required
+          />
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="col-sm-3">
+          <label for="url" class="form-label">*Url</label>
+        </div>
+        <div class="col-sm-4">
+          <input
+                  type="text"
+                  class="form-control"
+                  id="url"
+                  name="url"
+                  required
+          />
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="col-sm-3">
+          <label for="photo" class="form-label">*Photo</label>
+        </div>
+        <div class="col-sm-4">
+          <input
+                  type="text"
+                  class="form-control"
+                  id="photo"
+                  name="photo"
+                  required
+          />
+        </div>
+      </div>
+      <div class="col-sm-3">
+
+      </div>
+      <button
+              id="btn-add"
+              type="submit"
+              class="btn btn-primary"
+      >
+        Add Book
+      </button>
     </form>
   </div>
+  <!-- search isbn -->
+  <div>
+    <div class=" ishidden" id="search-isbn">
+      <form id="search-form" onsubmit="Post_Book_in_Library(); return false;">
+        <div class="d-flex mb-3 gap-3 align-items-center">
+          <div class="col-sm-3">
+            <input
+                    type="search"
+                    class="form-control"
+                    id="search"
+                    name="isbn"
+                    placeholder="search isbn...."
+                    required
+                    onchange="availableBook()"
+            />
+          </div>
+          <label id="msg-search" class="form-label" style="color:green"></label>
 
+        </div>
+
+        <div class="mb-3">
+          <button
+                  id="add"
+                  type="submit"
+                  class="btn btn-primary"
+          >
+            Add To Library
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+  <table id="requests" class="styled-table"></table>
 <!--<div id='availableBooks' class='ishidden'>-->
 <!--  <fieldset>-->
 <!--    <legend>Available Books</legend>-->
