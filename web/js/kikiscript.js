@@ -10,6 +10,7 @@ function loginUser(){
             const obj = JSON.parse(xhr.responseText);
             // console.log(obj);
             localStorage.setItem("username",document.getElementById("username").value);
+            localStorage.setItem("id",obj.id);
             switch (obj.type){
                 case "student":
                     localStorage.setItem("type","student");
@@ -165,9 +166,6 @@ function createFormFromJSON(request) {
                                 "<textarea class='form-control' id='libraryinfo' rows='1' minlength='3' maxlength='50' name='libraryinfo' placeholder='" + input + "'></textarea></div>";
                         break;
                     }
-                    case "library_id": {
-                        localStorage.setItem("library_id",input);
-                    }
                     default: {
                         if (label == "email" && localStorage.getItem("type") == "librarian") {
                             html += "<div class='mb-3'><div class='col-auto'><label for='email' class='form-label'>Email address</label></div>"+
@@ -317,7 +315,7 @@ function availableBook(){
                 document.getElementById("msg-search").style = "color:green";
                 document.getElementById("add").removeAttribute("disabled");
                 document.getElementById("msg-search").innerHTML = "The book doesn't exist in Library. You can added if you want";
-                jsonaddbook = "{\"isbn\":\""+isbn+"\",\"library_id\":\""+localStorage.getItem("library_id")+"\",\"available\":true}";
+                jsonaddbook = "{\"isbn\":\""+isbn+"\",\"library_id\":\""+localStorage.getItem("id")+"\",\"available\":true}";
             }else{
                 document.getElementById("msg-search").style = "color:orange";
                 document.getElementById("add").setAttribute("disabled","");
@@ -332,7 +330,7 @@ function availableBook(){
             console.log(data);
         }
     };
-    xhr.open("GET", "http://localhost:50350/Library_REST_API/library/availability/"+isbn+"/"+localStorage.getItem("library_id"));
+    xhr.open("GET", "http://localhost:50350/Library_REST_API/library/availability/"+isbn+"/"+localStorage.getItem("id"));
     xhr.setRequestHeader("Content-type", "application/json");
     xhr.send();
 
@@ -400,7 +398,7 @@ function showRequests(){
             console.log("error i dont't know");
         }
     };
-    xhr.open("GET", "http://localhost:50350/Library_REST_API/library/borrowing/"+localStorage.getItem("library_id"));
+    xhr.open("GET", "http://localhost:50350/Library_REST_API/library/borrowing/"+localStorage.getItem("id"));
     xhr.setRequestHeader("Accept", "application/json");
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send();
@@ -428,9 +426,9 @@ function actionLib(req,status){
         }
     };
     if(status==="requested"){
-        xhr.open("PUT", "http://localhost:50350/Library_REST_API/library/borrowing/updateStatus/"+localStorage.getItem("library_id")+"/borrowed");
+        xhr.open("PUT", "http://localhost:50350/Library_REST_API/library/borrowing/updateStatus/"+localStorage.getItem("id")+"/borrowed");
     }else{
-        xhr.open("PUT", "http://localhost:50350/Library_REST_API/library/borrowing/updateStatus/"+localStorage.getItem("library_id")+"/successEnd");
+        xhr.open("PUT", "http://localhost:50350/Library_REST_API/library/borrowing/updateStatus/"+localStorage.getItem("id")+"/successEnd");
     }
 
     xhr.setRequestHeader("Accept", "application/json");
@@ -492,7 +490,7 @@ function loans_info(){
             console.log("error i dont't know");
         }
     };
-    xhr.open("GET", "http://localhost:50350/Library_REST_API/library/borrowing/info/"+localStorage.getItem("library_id"));
+    xhr.open("GET", "http://localhost:50350/Library_REST_API/library/borrowing/info/"+localStorage.getItem("id"));
     xhr.setRequestHeader("Accept", "application/json");
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send();

@@ -34,7 +34,7 @@ public class Login extends HttpServlet {
             if (tmp_student != null){
                 if (tmp_student.getPassword().equals(password)){
                     String json = est.studentToJSON(tmp_student);
-                    String res = json.replace("}",",\"type\":\"student\"}");
+                    String res = json.replace("}",",\"type\":\"student\",\"id\":\""+ tmp_student.getUser_id()+"\"}");
                     System.out.println(res);
                     response.getWriter().write(res);
                     response.setStatus(200);
@@ -45,7 +45,7 @@ public class Login extends HttpServlet {
             } else if( tmp_librarian != null) {
                 if (tmp_librarian.getPassword().equals(password)){
                     String json = elt.librarianToJSON(tmp_librarian);
-                    String res = json.replace("}",",\"type\":\"librarian\"}");
+                    String res = json.replace("}",",\"type\":\"librarian\",\"id\":\""+ tmp_librarian.getLibrary_id()+"\"}");
                     System.out.println(res);
                     response.getWriter().write(res);
                     response.setStatus(200);
