@@ -21,15 +21,82 @@ function loginUser(){
                     window.location.replace("http://localhost:8080/libHome.html");
                     break;
             }
-        }
+        } else document.getElementById("log_msg").innerHTML = xhr.responseText;
     };
     xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+    xhr.send();
+}
+function CheckPending(){
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const data = JSON.parse(xhr.responseText);
+            console.log(data);
+            document.getElementById("alert").className = "isvisible";
+            createAlertsTable(data);
+        }else console.log(xhr.responseText);
+    };
+    xhr.open("GET", "http://localhost:50350/Library_REST_API/library/student/Pending/" + localStorage.getItem("id"));
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send();
+}
+function ShowAlerts(){
+    document.getElementById("alertsTable").className = "isvisible";
+
+    document.getElementById("personalData").className = "ishidden";
+    document.getElementById("availableBooks").className = "ishidden";
+    document.getElementById("reviewForm").className = "ishidden";
+    document.getElementById("borroowingTable").className = "ishidden";
+
+    document.getElementById("alert").className = "ishidden";
+    document.getElementById("option2").className = "isvisible";
+    document.getElementById("option1").className = "isvisible";
+    document.getElementById("option3").className = "isvisible";
+}
+function createAlertsTable(data){
+    var table = document.getElementById("alerts");
+    table.innerHTML = "";
+    let thead = table.createTHead();
+    let row = thead.insertRow(0);
+    // row.insertCell(0).innerHTML = "ID";
+    row.insertCell(0).innerHTML = "ISBN";
+    row.insertCell(1).innerHTML = "FromDate";
+    row.insertCell(2).innerHTML = "ToDate";
+    row.insertCell(3).innerHTML = "Library";
+
+    let tbody = table.createTBody();
+    var i = 0;
+    for(let x in data){
+        let row = tbody.insertRow(i);
+        row.id = data[x].username;
+        row.insertCell(0).innerHTML=data[x].isbn;
+        row.insertCell(1).innerHTML=data[x].fromdate;
+        row.insertCell(2).innerHTML=data[x].todate;
+        row.insertCell(3).innerHTML=data[x].library;
+        row.insertCell(4).innerHTML= "<input id='"+data[x].borrowing_id+"' type='button'  class='btn btn-danger' onclick='returnbook(this.id)' value='"+data[x].status+"'>";
+        i++;
+    }
+}
+function returnbook(id) {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const data = JSON.parse(xhr.responseText);
+            console.log(data);
+            document.getElementById(id).value = "returned";
+        }else console.log(xhr.responseText);
+    };
+    xhr.open("PUT", "http://localhost:50350/Library_REST_API/library/borrowing/updateStatus/" + id + "/returned");
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send();
 }
 // show personalData for student
 function showPersonalData(){
     document.getElementById("personalData").className = "isvisible";
     document.getElementById("availableBooks").className = "ishidden";
+    document.getElementById("reviewForm").className = "ishidden";
     document.getElementById("option2").className = "isvisible";
     document.getElementById("option1").className = "ishidden";
 
@@ -69,9 +136,14 @@ function showAvailableBooks(){
     document.getElementById("personalData").className = "ishidden";
     document.getElementById("option1").className = "isvisible";
     document.getElementById("option2").className = "ishidden";
+
+    document.getElementById("reviewForm").className = "ishidden";
+    document.getElementById("option3").className = "isvisible";
+
     document.getElementById("table").className ="ishidden";
 
-    // document.getElementById("option3").className = "isvisible";
+    document.getElementById("option3").className = "isvisible";
+
 
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'AvailableBooks?');
@@ -458,7 +530,6 @@ function showLibPersonalData(){
     document.getElementById("requests").className = "ishidden";
     createFormFromJSON("http://localhost:50350/Library_REST_API/library/librarian/librarians/");
 }
-
 function newBook(){
     document.getElementById("personalData").className = "ishidden";
     document.getElementById("option1").className = "isvisible";
@@ -479,7 +550,6 @@ function available(){
     document.getElementById("option4").className = "isvisible";
     document.getElementById("requests").className = "ishidden";
 }
-
 function addBook(){
     let form = document.getElementById("bookForm")
     let formData = new FormData(form);
@@ -496,8 +566,6 @@ function addBook(){
     xhr.setRequestHeader("Content-type", "application/json");
     xhr.send(jsonData);
 }
-
-
 
 let flag = "true";
 var jsonaddbook
@@ -536,7 +604,6 @@ function availableBook(){
     xhr.send();
 
 }
-
 function Post_Book_in_Library(){
 
     const xhr = new XMLHttpRequest();
@@ -636,7 +703,6 @@ function actionLib(req,status){
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send();
 }
-
 function loans_info(){
     document.getElementById("personalData").className = "ishidden";
     document.getElementById("option1").className = "isvisible";

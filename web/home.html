@@ -5,9 +5,11 @@
     <title>Home Page</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/kikicss.css">
+
     <link rel="stylesheet" href="./css/table.css">
     <script src="js/kikiscript.js" defer></script>
     <script src="js/script.js" defer></script>
+    <script src="js/tmp.js" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://www.openlayers.org/api/OpenLayers.js"></script>
     <!-- Bootstrap -->
@@ -23,10 +25,13 @@
             crossorigin="anonymous"
     ></script>
 </head>
-<body id="body" class="container">
+
+<body class="container" onload="CheckPending()">
 <button id="logout" onclick="logout()" >Logout</button>
 <button id="option1" onclick="showPersonalData()">Show Personal Data</button>
 <button id="option2" onclick="showAvailableBooks()">Show Available Books</button>
+<button id="option3" onclick="ShowBorrowings()">Show Borrowings</button>
+<button id="alert" onclick="ShowAlerts()" class="ishidden">Alerts</button>
 <div id="personalData" class="ishidden"></div>
 
 
@@ -37,12 +42,35 @@
         <div id='list_ofAvailableBooks' class="" ></div>
     </fieldset>
 </div>
+<div id="borroowingTable" class='ishidden'>
+    <table id="borrowings" class="styled-table"></table>
+</div>
+<div id="reviewForm" class='ishidden'>
+    <form id="newreview">
+        <div><label for="review">Add Review:</label><br>
+        <textarea id="review" name="review" rows="4" cols="50" placeholder="Add your review here"></textarea></div>
+        <div><label for="score">Choose a Score:</label>
+        <select name="score" id="score">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select></div>
+        <div>
+            <input type="button" value="Send" onclick="PostReview()">
+            <h5 id="Post_msg" style="color: red"></h5>
+            <input type="button" value="Go Back" onclick="GoBackToBorrowings()">
+        </div>
+    </form>
+</div>
+<div id="alertsTable" class="ishidden">
+    <table id="alerts" class="styled-table"></table>
+</div>
+
 <div id="table" class="row">
     <!--    <table  class="styled-table"></table>-->
 </div>
-
-
-
 
 </body>
 </html>

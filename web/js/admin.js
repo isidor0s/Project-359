@@ -3,7 +3,8 @@ function loginAdmin(){
     var pwd = document.getElementById("password")
     if(user.value === "admin" && pwd.value === "admin12"){
         window.location.replace("http://localhost:8080/adminHome.html");
-    }
+    } else
+        document.getElementById("adm_msg").innerHTML = "Wrong Credentials for admin !";
 }
 function adminLogout(){
     window.location.replace("http://localhost:8080/admin.html");
@@ -115,7 +116,6 @@ function showStudent(request){
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send();
 }
-
 function showLibrarian(request,div){
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {

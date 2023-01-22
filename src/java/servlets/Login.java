@@ -39,7 +39,7 @@ public class Login extends HttpServlet {
                     response.getWriter().write(res);
                     response.setStatus(200);
                 }else {
-                    response.getWriter().write("404 error/ Wrong Password");
+                    response.getWriter().write("Wrong Password");
                     response.setStatus(404);
                 }
             } else if( tmp_librarian != null) {
@@ -50,11 +50,11 @@ public class Login extends HttpServlet {
                     response.getWriter().write(res);
                     response.setStatus(200);
                 }else {
-                    response.getWriter().write("404 error/ Wrong Password");
+                    response.getWriter().write("Wrong Password");
                     response.setStatus(404);
                 }
             } else {
-                response.getWriter().write("404 error/ User not found");
+                response.getWriter().write("User not found");
                 response.setStatus(404);
             }
         } catch (SQLException | ClassNotFoundException ex) {
