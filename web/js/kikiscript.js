@@ -99,17 +99,51 @@ function showPersonalData(){
     document.getElementById("reviewForm").className = "ishidden";
     document.getElementById("option2").className = "isvisible";
     document.getElementById("option1").className = "ishidden";
-    document.getElementById("option3").className = "isvisible";
+
     createFormFromJSON("http://localhost:50350/Library_REST_API/library/student/students/");
 }
-// show availablebooks ajax
+// show availablebooks servlet
+// function showAvailableBooks(){
+//     document.getElementById("availableBooks").className = "isvisible";
+//     document.getElementById("personalData").className = "ishidden";
+//     document.getElementById("option1").className = "isvisible";
+//     document.getElementById("option2").className = "ishidden";
+//     // document.getElementById("option3").className = "isvisible";
+//
+//     var xhr = new XMLHttpRequest();
+//     xhr.open('GET', 'AvailableBooks?');
+//     xhr.onload = function () {
+//         if (xhr.readyState === 4 && xhr.status === 200) {
+//             var books = JSON.parse(this.responseText);
+//             books.forEach(function(book) {
+//                 $('#list_ofAvailableBooks').after("<h3>" + book.title + "</h3>"  +
+//                     "<img src='" + book.photo + "' alt='book cover photo'><br>" +
+//                     "<a href='" + book.url + "' target='_blank'>Buy It</a><br>" +
+//                     "Isbn : " + book.isbn + "<br>" +
+//                     "Authors : " + book.authors + "<br>" +
+//                     "Genre : " + book.genre + "<br>" +
+//                     "Pages : " + book.pages + "<br>" +
+//                     "Publication Year : " + book.publicationyear);
+//             });
+//         }
+//     };
+//     xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+//     xhr.send();
+// }
+// ajax createForm
 function showAvailableBooks(){
     document.getElementById("availableBooks").className = "isvisible";
     document.getElementById("personalData").className = "ishidden";
     document.getElementById("option1").className = "isvisible";
     document.getElementById("option2").className = "ishidden";
+
     document.getElementById("reviewForm").className = "ishidden";
     document.getElementById("option3").className = "isvisible";
+
+    document.getElementById("table").className ="ishidden";
+
+    document.getElementById("option3").className = "isvisible";
+
 
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'AvailableBooks?');
@@ -117,21 +151,190 @@ function showAvailableBooks(){
         if (xhr.readyState === 4 && xhr.status === 200) {
             var books = JSON.parse(this.responseText);
             books.forEach(function(book) {
-                $('#list_ofAvailableBooks').after("<h3>" + book.title + "</h3>"  +
-                    "<img src='" + book.photo + "' alt='book cover photo'><br>" +
-                    "<a href='" + book.url + "' target='_blank'>Buy It</a><br>" +
+                $('#list_ofAvailableBooks').after("<div class='card mb-3' style='width: 18rem; '>"  +
+                    "<img src='" + book.photo + "' alt='book cover photo' class='card-img-top'>" +
+                    "<div class='card-body'><h3 class='card-title'>" + book.title + "</h3>" +
+                    "<p class='card-text'>"+
                     "Isbn : " + book.isbn + "<br>" +
                     "Authors : " + book.authors + "<br>" +
                     "Genre : " + book.genre + "<br>" +
                     "Pages : " + book.pages + "<br>" +
-                    "Publication Year : " + book.publicationyear);
+                    "Publication Year : " + book.publicationyear+
+                    "<br><a href='" + book.url + "' target='_blank'>Buy It</a>"+
+                    "</p>" +
+
+                    "<button class='btn btn-primary' onclick='studentBorrow("+book.isbn+")'>Request Borrow</button>" +
+                    "</div>" +
+                    "</div>");
             });
         }
     };
-    xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+    xhr.open("GET", "http://localhost:50350/Library_REST_API/library/book/books/all");
+    xhr.setRequestHeader('Content-type','application/json');
     xhr.send();
 }
-// ajax createForm
+function revert(){
+    document.getElementById("availableBooks").className = "isvisible";
+    document.getElementById("personalData").className = "ishidden";
+    document.getElementById("option1").className = "isvisible";
+    document.getElementById("option2").className = "ishidden";
+    document.getElementById("book_exist_in_libraries").className ="ishidden";
+}
+function studentBorrow(isbn){
+    document.getElementById("availableBooks").className = "ishidden";
+    document.getElementById("personalData").className = "ishidden";
+    document.getElementById("option1").className = "isvisible";
+    document.getElementById("option2").className = "isvisible";
+    document.getElementById("table").className ="isvisible d-flex";
+
+    // table.innerHTML = "";
+    var array = [];
+    const xhr = new XMLHttpRequest();
+    //Get user lat and lon
+    xhr.onload = function () { //for  Student
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const student = JSON.parse(xhr.responseText);
+            const xhr2 = new XMLHttpRequest();
+            //Get libraries lat and lon
+            xhr2.onload = function (){  //for libraries
+                if (xhr.readyState === 4 && xhr.status === 200){
+                    const libraries = JSON.parse(xhr2.responseText);
+                    var Req_str = "";
+                    let i = 0 ;
+                    for (let x in libraries) {
+                        array[i] = [];
+                        array[i][0] = libraries[x].library_id;
+                        Req_str += libraries[x].lat + "%2C" + libraries[x].lon +"%3B"; //Set the coordinates for the request (xhr3)
+                        i++ ;
+                    }
+
+                    // https://rapidapi.com/trueway/api/trueway-matrix/
+                    const xhr3 = new XMLHttpRequest();
+                    xhr3.withCredentials = true;
+                    xhr3.addEventListener("readystatechange", function () {
+                        if (this.readyState === this.DONE) {
+                            const distances = JSON.parse(xhr3.responseText);
+                            // console.log(distances);
+                            // let i = 0;
+                            // for (x in libraries){
+                            //     array[i][1] = distances.distances[0][i];
+                            //     array[i][2] = distances.durations[0][i];
+                            //     console.log("library_id = " + array[i][0] + " distance_Km = " + array[i][1]/1000 +"Km" + " duration_mins = " + secondsToMinutes(array[i][2]));
+                            //     i++ ;
+                            // }
+                            // show.innerHTML ="<button class='btn btn-exit' onclick='revert()'>exit mode</button>"
+                            // selectionSort(array,libraries.length,1);
+                            // console.log("Sorted by Distance : ");
+                            // for (let j = 0 ; j< libraries.length ; j++)
+                            //     console.log("library_id = " + array[j][0]);
+                            //
+                            // selectionSort(array,libraries.length,2);
+                            // console.log("Sorted by Duration by Car : ");
+                            // for (let j = 0 ; j< libraries.length ; j++)
+                            //     console.log("library_id = " + array[j][0])
+
+                            let div = document.getElementById("table")
+                            div.innerHTML = "";
+                            let table = document.createElement('table');
+                            // table.id = "book_exist_in_libraries";
+                            table.className = "isvisible styled-table";
+                            let thead = document.createElement('thead');
+                            let tbody = document.createElement('tbody');
+
+                            table.appendChild(thead);
+                            table.appendChild(tbody);
+                            div.append(table);
+                            document.getElementById('body').appendChild(div);
+
+                            let row = thead.insertRow(0);
+                            row.insertCell(0).innerHTML = "Library Name";
+                            row.insertCell(1).innerHTML="Address";
+                            row.insertCell(2).innerHTML="Action";
+
+
+
+                            var i = 0;
+                            for(let x in libraries){
+                                let row = tbody.insertRow(i);
+                                row.id = libraries[x].username;
+                                row.insertCell(0).innerHTML=libraries[x]["username"];
+                                row.insertCell(1).innerHTML=libraries[x]["address"];
+                                row.insertCell(2).innerHTML= "<button id='"+i+"'  class='btn btn-warning' onclick=''>Request</button>";
+                                i++;
+                            }
+                        }
+                    });
+                    xhr3.open("GET", "https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins=" + lat + "%2C" + lon + "&destinations=" + Req_str );
+                    xhr3.setRequestHeader("X-RapidAPI-Key", "8850c2a13fmsh8d8d5df24849f74p138580jsn0562ef4d1dbb");
+                    xhr3.setRequestHeader("X-RapidAPI-Host", "trueway-matrix.p.rapidapi.com");
+                    xhr3.send();
+
+
+                } else console.log(xhr2.responseText);
+            };
+            xhr2.open("GET", "http://localhost:50350/Library_REST_API/library/availability/"+isbn);
+            xhr2.setRequestHeader("Accept", "application/json");
+            xhr2.setRequestHeader("Content-Type", "application/json");
+            xhr2.send();
+            console.log(student);
+            let lat = student[0].lat;
+            let lon = student[0].lon;
+        } else if (xhr.status !== 200) console.log(xhr.responseText);
+    };
+    xhr.open("GET", "http://localhost:50350/Library_REST_API/library/student/students/"+localStorage.getItem("username") );
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send();
+}
+function makeBorrow(){
+    let form = document.getElementById("bookForm")
+    let formData = new FormData(form);
+    let data = {};
+    formData.forEach((value, key) => (data[key] = value));
+    var jsonData=JSON.stringify(data);
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.readyState === 4 && xhr.status === 200){
+            console.log("ok2000")
+        }
+    };
+    xhr.open("POST", "http://localhost:50350/Library_REST_API/library/book/newbook");
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.send(jsonData);
+}
+function secondsToMinutes(secs){
+    return Math.floor(secs / 60)+'min '+Math.floor(secs % 60) + 'sec';
+}
+
+// https://www.geeksforgeeks.org/selection-sort/
+function selectionSort(arr,  n, field)
+{
+    var i, j, min_idx;
+    // One by one move boundary of unsorted subarray
+    for (i = 0; i < n-1; i++)
+    {
+        // Find the minimum element in unsorted array
+        min_idx = i;
+        for (j = i + 1; j < n; j++)
+            if (arr[j][field] < arr[min_idx][field])
+                min_idx = j;
+
+        // Swap the found minimum element with the first element
+        swap(arr,min_idx, i);
+    }
+}
+function swap(arr,xp, yp)
+{
+    var tmp_libId = arr[xp][0];
+    var tmp_dist = arr[xp][1];
+    var tmp_dur = arr[xp][2];
+    arr[xp][0] = arr[yp][0];
+    arr[xp][1] = arr[yp][1];
+    arr[xp][2] = arr[yp][2];
+    arr[yp][0] = tmp_libId;
+    arr[yp][1] = tmp_dist;
+    arr[yp][2] = tmp_dur;
+}
 function createFormFromJSON(request) {
     let html = "<br><br><form id='updateInfo_form' name='updateInfo_form' onsubmit='CheckLocation(); return false;'>";
     const xhr = new XMLHttpRequest();
@@ -253,6 +456,7 @@ function createFormFromJSON(request) {
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send();
 }
+
 function  CheckLocation(){
     document.getElementById("update_msg").style.display="none";
     const xhr = new XMLHttpRequest();
@@ -291,6 +495,7 @@ function  CheckLocation(){
     xhr.setRequestHeader("X-RapidAPI-Host", "forward-reverse-geocoding.p.rapidapi.com");
     xhr.send();
 }
+
 function updateUserInfo(){
     let req = $('#updateInfo_form').serialize() +'&type=' + localStorage.getItem("type") + '&username=' + localStorage.getItem("username") + '&lat=' + lat + '&lon=' + lon;
     const xhr = new XMLHttpRequest();

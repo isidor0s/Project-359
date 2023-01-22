@@ -5,7 +5,8 @@
     <title>Home Page</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/kikicss.css">
-    <link rel="stylesheet" href="css/table.css" />
+
+    <link rel="stylesheet" href="./css/table.css">
     <script src="js/kikiscript.js" defer></script>
     <script src="js/script.js" defer></script>
     <script src="js/tmp.js" defer></script>
@@ -24,6 +25,7 @@
             crossorigin="anonymous"
     ></script>
 </head>
+
 <body class="container" onload="CheckPending()">
 <button id="logout" onclick="logout()" >Logout</button>
 <button id="option1" onclick="showPersonalData()">Show Personal Data</button>
@@ -31,10 +33,13 @@
 <button id="option3" onclick="ShowBorrowings()">Show Borrowings</button>
 <button id="alert" onclick="ShowAlerts()" class="ishidden">Alerts</button>
 <div id="personalData" class="ishidden"></div>
-<div id='availableBooks' class='ishidden'>
+
+
+
+<div id='availableBooks' class='ishidden' class="d-flex justify-content-center">
     <fieldset>
         <legend>Available Books</legend>
-        <div id='list_ofAvailableBooks'></div>
+        <div id='list_ofAvailableBooks' class="" ></div>
     </fieldset>
 </div>
 <div id="borroowingTable" class='ishidden'>
@@ -62,5 +67,10 @@
 <div id="alertsTable" class="ishidden">
     <table id="alerts" class="styled-table"></table>
 </div>
+
+<div id="table" class="row">
+    <!--    <table  class="styled-table"></table>-->
+</div>
+
 </body>
 </html>

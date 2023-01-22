@@ -334,7 +334,7 @@ function newUser(){
     formData.forEach((value, key) => (data[key] = value));
 
     let xhr = new XMLHttpRequest();
-    xhr.onload = new function (){
+    xhr.onload = function (){
       if(xhr.readyState === 4 && xhr.status === 200){
         console.log("ok");
       }
