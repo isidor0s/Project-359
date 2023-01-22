@@ -5,6 +5,7 @@
     <title>Home Page</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/kikicss.css">
+    <link rel="stylesheet" href="./css/table.css">
     <script src="js/kikiscript.js" defer></script>
     <script src="js/script.js" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -22,16 +23,26 @@
             crossorigin="anonymous"
     ></script>
 </head>
-<body class="container">
+<body id="body" class="container">
 <button id="logout" onclick="logout()" >Logout</button>
 <button id="option1" onclick="showPersonalData()">Show Personal Data</button>
 <button id="option2" onclick="showAvailableBooks()">Show Available Books</button>
 <div id="personalData" class="ishidden"></div>
-<div id='availableBooks' class='ishidden'>
+
+
+
+<div id='availableBooks' class='ishidden' class="d-flex justify-content-center">
     <fieldset>
         <legend>Available Books</legend>
-        <div id='list_ofAvailableBooks'></div>
+        <div id='list_ofAvailableBooks' class="" ></div>
     </fieldset>
 </div>
+<div id="table" class="row">
+    <!--    <table  class="styled-table"></table>-->
+</div>
+
+
+
+
 </body>
 </html>
