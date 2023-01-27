@@ -21,56 +21,90 @@
     <!--  icons -->
     <script src="https://unpkg.com/phosphor-icons"></script>
     <script src="js/script.js"></script>
-    <script src="js/kikiscript.js"></script>
+    <script src="js/mainScript.js"></script>
+    <script src="js/UseAPI.js" defer></script>
 </head>
-<body>
-<div class="container">
-    <header class="d-flex justify-content-center mt-5">
-        <h1>Login</h1>
-    </header>
-    <!--        <form class="d-flex justify-content-center">-->
-    <form class="d-flex justify-content-center" id="loginForm" name="loginForm" onsubmit="loginUser(); return false;">
-        <div class="col-md-3 card p-4 border-primary">
-            <div class="text-primary">
-                <label for="username" class="form-label">Username</label>
-            </div>
-            <div class="col mb-3">
-                <input
-                        type="text"
-                        class="form-control"
-                        id="username"
-                        name="username"
-                        required
-                />
-            </div>
-            <div class="text-primary">
-                <label for="password" class="col-form-label">Password</label>
-            </div>
-            <div class="col mb-4">
-                <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        class="form-control"
-                        required
-                />
-            </div>
-            <div class="show">
-                <i onclick="show_password()" id="eye" class="ph-eye-bold"></i>
-            </div>
-            <!--                <button id="submit" type="submit" class="btn btn-primary mb-3" >-->
-            <!--                    Sign in-->
-            <!--                </button>-->
-            <input type="submit"  value="Login" class="btn btn-primary mb-3">
-            <div id="log_msg" style="color: red"></div>
-            <div class="d-flex justify-content-center">
-                Not registered?&nbsp;
-                <a class="link-primary text-decoration-none" onclick="switch_reg()"
-                >Create an account</a
+<body onload="ShowBooks('visitor')">
+<div id="Login_Mes" class="d-flex justify-content-center">&nbsp;
+    Already Have an Account?&nbsp;<a class="link-primary text-decoration-none" onclick="GotoLogin()">Login</a>
+</div>
+<div id="Register_Mes" class="d-flex justify-content-center">&nbsp;
+    Want an Account?&nbsp;<a class="link-primary text-decoration-none" onclick="switch_reg()">Create</a>
+</div>
+<div id="visitor">
+    <div id='availableBooks' class="d-flex justify-content-center">
+        <fieldset>
+            <legend>Books</legend>
+            <form id="bookfilters">
+                <div><label for="genre">Genre : </label>
+                    <input name="genre" id="genre" type="text" placeholder="all">
+                    <input type='button' onclick='ShowBooks("visitor")' value='Search' class="btn btn-primary"><br></div>
+            </form>
+            <input id="btn_hide" type="button" onclick="Hide()" class="btn btn-secondary d-flex justify-content-center" value="Hide Books">
+            <input id="btn_show" type="button" onclick="Show()" class="ishidden btn btn-secondary d-flex justify-content-center" value="Show Books">
+            <div id="FiltersMsg" style="color: red"></div>
+            <div id='list_ofAvailableBooks' class="" ></div>
+        </fieldset>
+    </div>
+    <div class="container">
+    <div class="d-flex justify-content-center"><a href="http://www.uoc.gr/" target="_blank">Visit UOC</a></div>
+    <div class="d-flex justify-content-center"><a href="http://www.tuc.gr/" target="_blank">Visit TUC</a></div>
+    <div class="d-flex justify-content-center"><a href="http://www.helmepa.gr/" target="_blank">Visit HELMEPA</a></div>
+    <div class="d-flex justify-content-center"><a href="https://www.abebooks.com/" target="_blank">Visit ABEBOOKS</a></div></div>
+</div>
+<div id="login" class="ishidden">
+    <div class="container">
+        <header class="d-flex justify-content-center mt-5">
+            <h1>Login</h1>
+        </header>
+        <!--        <form class="d-flex justify-content-center">-->
+        <form class="d-flex justify-content-center" id="loginForm" name="loginForm" onsubmit="loginUser(); return false;">
+            <div class="col-md-3 card p-4 border-primary">
+                <div class="text-primary">
+                    <label for="username" class="form-label">Username</label>
+                </div>
+                <div class="col mb-3">
+                    <input
+                            type="text"
+                            class="form-control"
+                            id="username"
+                            name="username"
+                            required
+                    />
+                </div>
+                <div class="text-primary">
+                    <label for="password" class="col-form-label">Password</label>
+                </div>
+                <div class="col mb-4">
+                    <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-control"
+                            required
+                    />
+                </div>
+                <div class="show">
+                    <i onclick="show_password()" id="eye" class="ph-eye-bold"></i>
+                </div>
+                <!--                <button id="submit" type="submit" class="btn btn-primary mb-3" >-->
+                <!--                    Sign in-->
+                <!--                </button>-->
+                <input type="submit"  value="Login" class="btn btn-primary mb-3">
+                <div id="log_msg" style="color: red"></div>
+                <div class="d-flex justify-content-center">
+                    Not registered?&nbsp;
+                    <a class="link-primary text-decoration-none" onclick="switch_reg()"
+                    >Create an account</a
+                    >
+                </div><div class="d-flex justify-content-center">
+                <a class="link-primary text-decoration-none" onclick="window.location.replace('http://localhost:8080/')"
+                >Go Back to visitor mode</a
                 >
             </div>
-        </div>
-    </form>
+            </div>
+        </form>
+    </div>
 </div>
 </body>
 </html>
