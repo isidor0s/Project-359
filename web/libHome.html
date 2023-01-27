@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <title>Home Page</title>
   <link rel="stylesheet" href="./css/style.css">
-  <link rel="stylesheet" href="./css/kikicss.css">
   <link rel="stylesheet" href="./css/table.css">
-  <script src="js/kikiscript.js" defer></script>
+  <script src="js/mainScript.js" defer></script>
+  <script src="js/UseAPI.js" defer></script>
   <script src="js/script.js" defer></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://www.openlayers.org/api/OpenLayers.js"></script>
@@ -24,14 +24,12 @@
   ></script>
 </head>
 <body class="container">
-  <button id="logout" onclick="logout()" >Logout</button>
-  <button id="option1" onclick="showLibPersonalData()">Show Personal Data</button>
-  <button id="option2" onclick="newBook()">Add New Book</button>
-  <button id="option3" onclick="available()">Book Availability</button>
-  <button id="option4" onclick="showRequests()">Requests</button>
-  <button id="option5" onclick="loans_info()">Βook loans</button>
-
-  <!--<button id="option2" onclick="showAvailableBooks()">Show Available Books</button>-->
+  <button id="logout" onclick="logout()" class="btn btn-danger" >Logout</button>
+  <button id="option1" onclick="showLibPersonalData()" class="btn btn-primary">Show Personal Data</button>
+  <button id="option2" onclick="newBook()" class="btn btn-primary">Add New Book</button>
+  <button id="option3" onclick="available()" class="btn btn-primary">Book Availability</button>
+  <button id="option4" onclick="showRequests()" class="btn btn-primary">Requests</button>
+  <button id="option5" onclick="loans_info()" class="btn btn-primary">Borrowed Βooks</button>
   <!-- Personal Data -->
   <div id="personalData" class="ishidden"></div>
   <div class="mb-3"></div>
@@ -163,6 +161,7 @@
       >
         Add Book
       </button>
+      <div id="newBook_msg" style="color: green"></div>
     </form>
   </div>
   <!-- search isbn -->
@@ -190,6 +189,7 @@
                   id="add"
                   type="submit"
                   class="btn btn-primary"
+                  disabled
           >
             Add To Library
           </button>
@@ -198,12 +198,7 @@
       </form>
     </div>
   </div>
+  <div id="msg" style="color: red"></div>
   <table id="requests" class="styled-table"></table>
-<!--<div id='availableBooks' class='ishidden'>-->
-<!--  <fieldset>-->
-<!--    <legend>Available Books</legend>-->
-<!--    <div id='list_ofAvailableBooks'></div>-->
-<!--  </fieldset>-->
-<!--</div>-->
 </body>
 </html>
